@@ -1,0 +1,10 @@
+pandas~=2.0.1
+dash~=2.9.3
+numpy~=1.24.3
+plotly~=5.14.1
+Flask~=2.3.1
+scikit-learn~=1.2.2
+docxtpl~=0.16.6
+docx~=0.2.4
+matplotlib~=3.7.1
+kaleido~=0.2.1
