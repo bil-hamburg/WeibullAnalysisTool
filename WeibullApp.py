@@ -24,19 +24,6 @@ import matplotlib
 #https://community.plotly.com/t/upload-csv-with-dcc-upload-to-store-using-dcc-store-and-then-displaying-table/67802/3
 UPLOAD_DIRECTORY = "/WeibullAnalyse"
 Datetimenow = str(datetime.now().strftime("%d.%m.%Y_%H.%M.%S"))
-UPLOAD_DIRECTORY = UPLOAD_DIRECTORY + '/' + Datetimenow + '/'
-if os.path.exists(UPLOAD_DIRECTORY):
-
-    # for filename in os.listdir(UPLOAD_DIRECTORY):
-    for filename in os.listdir(UPLOAD_DIRECTORY):
-        # if not os.path.isdir(UPLOAD_DIRECTORY):
-        # if filename.find('.xlsx'):
-        if os.path.isfile(UPLOAD_DIRECTORY + '/' + filename):
-            os.remove(UPLOAD_DIRECTORY + "/" + filename)
-
-
-if not os.path.exists(UPLOAD_DIRECTORY):
-    os.makedirs(UPLOAD_DIRECTORY)
 
 
 app = dash.Dash(__name__)
