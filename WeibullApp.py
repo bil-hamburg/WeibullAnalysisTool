@@ -39,7 +39,7 @@ if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)
 
 
-app = dash.Dash()
+app = dash.Dash(__name__)
 server = app.server
 
 dftest = pd.DataFrame(dict(
@@ -682,7 +682,7 @@ def CreateAndDownloadDocx(n_clicks, Beta, Eta, MTTF):
 
 
 if __name__ == '__main__':
-    app.run_server(port=8002, debug=True)
+    app.run_server(port=8002, debug=False)
     # app.run(debug=True, port=8001)
 
 
