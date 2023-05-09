@@ -8,3 +8,4 @@ docxtpl~=0.16.6
 docx~=0.2.4
 matplotlib~=3.5.3
 kaleido~=0.2.1
+gunicorn~=19.8
