@@ -481,7 +481,8 @@ def StartAnalysis(stored_data):
             data={'Laufzeit': Laufzeit_Temp, 'Zuverlässigkeit': Zuverlässigkeit_Temp, 'Ausfallrate': Ausfallrate_Temp,
                   'KumulativeVerteillungsfunktion': KumulativeVerteillungsfunktion_Temp,
                   'Wahrscheinlichkeitsdichtefunktion': Wahrscheinlichkeitsdichtefunktion_Temp})
-        df_Plots = df_Plots._append(new_Row, ignore_index=True)
+        #df_Plots = df_Plots._append(new_Row, ignore_index=True)
+        df_Plots = df_Plots.append(new_Row, ignore_index=True)
 
         i += 1
 
