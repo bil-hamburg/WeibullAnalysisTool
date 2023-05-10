@@ -517,7 +517,7 @@ def StartAnalysis(stored_data):
             )
         )
     )
-    figure_zuverlässigkeit.write_image(Analysis_Directory + '/Zuverlässigkeit.png')  # add date
+    #figure_zuverlässigkeit.write_image(Analysis_Directory + '/Zuverlässigkeit.png')  # add date
 
     figure_Ausfallrate = px.line(df_Plots, x="Laufzeit", y="Ausfallrate", template="simple_white")
     figure_Ausfallrate.update_yaxes(showgrid=True)
@@ -538,7 +538,7 @@ def StartAnalysis(stored_data):
         xaxis_title="Laufzeit", yaxis_title="Ausfallrate"
     )
 
-    figure_Ausfallrate.write_image(Analysis_Directory + '/Ausfallrate.png')
+    #figure_Ausfallrate.write_image(Analysis_Directory + '/Ausfallrate.png')
     # P(x)
     figure_Wahrscheinlichkeitsverteilungsfunktion = px.line(df_Plots, x="Laufzeit",
                                                             y="Wahrscheinlichkeitsdichtefunktion",
@@ -561,8 +561,8 @@ def StartAnalysis(stored_data):
         xaxis_title="Laufzeit", yaxis_title="Ausfallwahrscheinlichkeit"
     )
     # Kumulative Ausfälle (bezogen auf die Gesamtmenge)
-    figure_Wahrscheinlichkeitsverteilungsfunktion.write_image(
-        Analysis_Directory + '/Wahrscheinlichkeitsverteilungsfunktion.png')
+    #figure_Wahrscheinlichkeitsverteilungsfunktion.write_image(
+    #    Analysis_Directory + '/Wahrscheinlichkeitsverteilungsfunktion.png')
 
     figure_KumulativeVerteillungsfunktion = px.line(df_Plots, x="Laufzeit", y="KumulativeVerteillungsfunktion",
                                                     template="simple_white")
@@ -586,7 +586,7 @@ def StartAnalysis(stored_data):
         xaxis_title="Laufzeit", yaxis_title="Kumulative Ausfälle (Bezogen auf die Gesamtmenge)"
     )
     # figure_KumulativeVerteillungsfunktion.update_yaxes(y = 'Kumulative Ausfälle (Bezogen auf die Gesamtmenge)')
-    figure_KumulativeVerteillungsfunktion.write_image(Analysis_Directory + '/KumulativeVerteillungsfunktion.png')
+    #figure_KumulativeVerteillungsfunktion.write_image(Analysis_Directory + '/KumulativeVerteillungsfunktion.png')
 
     df_Plots.plot(x='Laufzeit', y="Ausfallrate")
     df_Plots.plot(x='Laufzeit', y="KumulativeVerteillungsfunktion")
