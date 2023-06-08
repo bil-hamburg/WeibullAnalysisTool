@@ -182,7 +182,7 @@ app.layout = html.Div(
 
 @app.callback(Output("download", "data"), [Input("btn", "n_clicks")], prevent_initial_call=True)
 def Func(n_clicks):
-    return dcc.send_data_frame(df_CSV.to_csv, "Vorlage.csv", index=True)
+    return dcc.send_data_frame(df_CSV.to_csv, "Vorlage.csv", index=False)
 
 
 # In[4]:
