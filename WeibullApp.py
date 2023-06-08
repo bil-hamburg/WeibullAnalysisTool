@@ -29,6 +29,27 @@ Datetimenow = str(datetime.now().strftime("%d.%m.%Y_%H.%M.%S"))
 app = dash.Dash(__name__)
 server = app.server
 
+df_CSV = pd.DataFrame(
+    [
+        ["Ausgefallen", 80],
+        ["Ausgefallen", 90],
+        ["Ausgefallen", 120],
+        ["In Betrieb", 100],
+        ["In Betrieb", 110],
+        ["Ausgefallen", 140],
+        ["Ausgefallen", 50],
+        ["Ausgefallen", 60],
+        ["Ausgefallen", 130],
+        ["Ausgefallen", 150],
+        ["In Betrieb", 40],
+        ["In Betrieb", 70],
+        ["In Betrieb", 75],
+    ],
+    columns=["AusgefallenOderInBetrieb", "Laufzeit"],
+)
+
+
+
 dftest = pd.DataFrame(dict(
     x=[1, 3, 2, 4],
     y=[1, 2, 3, 4]
@@ -39,7 +60,6 @@ figure_Ausfallrate = px.line(dftest, x="x", y="y", title="Unsorted Input")
 figure_Wahrscheinlichkeitsverteilungsfunktion = px.line(dftest, x="x", y="y", title="Unsorted Input")
 figure_KumulativeVerteillungsfunktion = px.line(dftest, x="x", y="y", title="Unsorted Input")
 
-# In[3]:
 
 
 app.layout = html.Div(
@@ -49,7 +69,8 @@ app.layout = html.Div(
         #html.Button("Herunterladen der Vorlage-Datei", id="btn"), dcc.Download(id="download"),
 
         #This doesnt work just YET
-        dbc.Button("Herunterladen der Vorlage-Datei", id="btn_link",href = "https://github.com/bil-hamburg/WeibullAnalysisTool/raw/main/Vorlage.csv"),
+        #dbc.Button("Herunterladen der Vorlage-Datei", id="btn_link",href = "https://github.com/bil-hamburg/WeibullAnalysisTool/raw/main/Vorlage.csv"),
+        html.Button("Herunterladen der Vorlage-Datei", id="btn"), dcc.Download(id="download"),
         html.H2("1. Hochladen der CSV-Datei"),
         dcc.Upload(
             id='upload-data',
@@ -125,25 +146,8 @@ app.layout = html.Div(
         dcc.Store(id='Eta'),
         dcc.Store(id='MTTF'),
 
-        # # NEW
-        # dcc.ConfirmDialog(
-        #     id='confirm-danger',
-        #     message='Danger danger! Are you sure you want to continue?',
-        # ),
-        #
-        # dcc.Dropdown(['Safe', 'Danger!!'], id='dropdown-danger'),
-        # html.Div(id='output-danger')
-        # ]
-        # ])
-        # NEW
-        # html.Div([
-        #    #dcc.Graph(id='line_plot_zuverlässigkeit', style= {'display': 'none'}),
-        #    #dcc.Graph(id='line_plot_Ausfallrate', style= {'display': 'none'}),
-        #    dcc.Graph(id='line_plot_Wahrscheinlichkeitsverteilungsfunktion', style= {'display': 'none'}),
-        #    dcc.Graph(id='line_plot_KumulativeVerteillungsfunktion', style= {'display': 'none'}),
-        # ])
     ],
-    # style={"max-width": "500px"},
+
 )
 
 
@@ -176,9 +180,9 @@ app.layout = html.Div(
 # NEW
 
 
-#@app.callback(Output("download", "data"), [Input("btn", "n_clicks")], prevent_initial_call=True)
-#def Func(n_clicks):
-#    return dcc.send_file("Vorlage.xlsx")
+@app.callback(Output("download", "data"), [Input("btn", "n_clicks")], prevent_initial_call=True)
+def Func(n_clicks):
+    return dcc.send_file(df_CSV.to_csv, "Vorlage.csv")
 
 
 # In[4]:
@@ -274,55 +278,6 @@ def file_download_link(filename):
     location = "/download/{}".format(urlquote(filename))
     return html.A(filename, href=location)
 
-
-# @app.callback(
-#     Output("file-list", "children"),
-#     [Input("upload-data", "filename"), Input("upload-data", "contents")],
-# )
-# def update_output(uploaded_filenames, uploaded_file_contents):
-#     """Save uploaded files and regenerate the file list."""
-#
-#     if uploaded_filenames is not None and uploaded_file_contents is not None:
-#         for name, data in zip(uploaded_filenames, uploaded_file_contents):
-#             save_file(name, data)
-#
-#     files = uploaded_files()
-#     if len(files) == 0:
-#         return [html.Li("Keine Datei bisher")]
-#     # else:
-#     # latestfile=files[-1]
-#     # return [html.Li(file_download_link(latestfile))]
-#     else:
-#         return [html.Li(file_download_link(filename)) for filename in files]
-#
-#
-# # es wird immer letzte Datei angezeigt nicht die aktuelle
-# @app.callback(
-#     Output("table-content", "children"),
-#     [Input("file-list", "contents"), Input("upload-data", "filename")], prevent_initial_call=True
-# )
-# def TableDisplay(children_data, file_name):
-#     time.sleep(0.5)
-#     file = os.listdir(UPLOAD_DIRECTORY)
-#
-#     if file is None:
-#
-#         empty_table = pd.DataFrame()
-#         empty_table.insert("Bisher keine Tabelle", "", [0])
-#
-#         return dash_table.DataTable(empty_table.to_dict('rows'))
-#         # return [html.Li("no files!")]
-#         # return html.H2("Keine Datei bisher")
-#     else:
-#         file = os.listdir(UPLOAD_DIRECTORY)
-#         filename = UPLOAD_DIRECTORY + '/' + file[0]
-#         df = pd.read_excel(filename)
-#         df_small = df.head(5)
-#         table_small = dash_table.DataTable(df_small.to_dict('rows'), fill_width=False)
-#         return table_small
-
-
-# Hide Infotext, show button
 
 
 @app.callback(
