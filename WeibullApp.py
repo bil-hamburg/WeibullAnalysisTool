@@ -140,7 +140,7 @@ app.layout = html.Div(
 
         # Download Button
         # html.Div([
-        html.Button("Dateien als Word-Datei herunterladen", id="download-button", style={'display': 'none'}),
+        html.Button("Dateien als Word-Export herunterladen", id="download-button", style={'display': 'none'}),
         dcc.Download(id="download-report"),
         dcc.Store(id='Beta'),
         dcc.Store(id='Eta'),
