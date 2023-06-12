@@ -21,6 +21,8 @@ import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
 import io
 import matplotlib
+
+from fpdf import FPDF
 #https://community.plotly.com/t/upload-csv-with-dcc-upload-to-store-using-dcc-store-and-then-displaying-table/67802/3
 UPLOAD_DIRECTORY = "/WeibullAnalyse"
 Datetimenow = str(datetime.now().strftime("%d.%m.%Y_%H.%M.%S"))
