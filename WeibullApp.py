@@ -565,48 +565,59 @@ def StartAnalysis(stored_data):
         'display': 'block'}, figure_Wahrscheinlichkeitsverteilungsfunktion, table_Kennzahlen, {
         'display': 'block'}, Beta, Eta, MTTF
 
-
+def create_pdf(n_clicks):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font('Arial', 'B', 16)
+    pdf.cell(40, 10, f'Hello World! (n_clicks is {n_clicks})')
+    return pdf
 @app.callback(Output("download-report", "data"), [Input("download-button", "n_clicks")], State('Beta', 'data'),
               State('Eta', 'data'), State('MTTF', 'data'), prevent_initial_call=True)
 def CreateAndDownloadDocx(n_clicks, Beta, Eta, MTTF):
-    template = DocxTemplate(
-        'C:/Users\denni/OneDrive - haw-hamburg.de/BIL Arbeitsordner/03_Data driven business/WeibullAnalysisTool/WeibullReportVorlage.docx')
-    Analysis_Directory = UPLOAD_DIRECTORY
+    def generate_xlsx(n_clicks):
+        def write_pdf(bytes_io):
+            pdf = create_pdf(n_clicks)  # pass argument to PDF creation here
+            bytes_io.write(pdf.output(dest='S').encode('latin-1'))
 
-    # import figures
-    ImgZuverlässigkeit = InlineImage(template, Analysis_Directory + '/Zuverlässigkeit.png', Cm(15))
-    ImgWahrscheinlichkeitsdichtefunktion = InlineImage(template,
-                                                       Analysis_Directory + '/Wahrscheinlichkeitsverteilungsfunktion.png',
-                                                       Cm(15))
-    ImgAusfallrate = InlineImage(template, Analysis_Directory + '/Ausfallrate.png', Cm(15))
-    ImgKumulativeVerteillungsfunktion = InlineImage(template,
-                                                    Analysis_Directory + '/KumulativeVerteillungsfunktion.png', Cm(15))
+    return dcc.send_bytes(generate_xlsx, "some_name.pdf")
+#    template = DocxTemplate(
+#        'C:/Users\denni/OneDrive - haw-hamburg.de/BIL Arbeitsordner/03_Data driven business/WeibullAnalysisTool/WeibullReportVorlage.docx')
+#    Analysis_Directory = UPLOAD_DIRECTORY##
+#
+ #   # import figures
+#    ImgZuverlässigkeit = InlineImage(template, Analysis_Directory + '/Zuverlässigkeit.png', Cm(15))
+#    ImgWahrscheinlichkeitsdichtefunktion = InlineImage(template,
+#                                                       Analysis_Directory + '/Wahrscheinlichkeitsverteilungsfunktion.png',
+#                                                       Cm(15))
+#    ImgAusfallrate = InlineImage(template, Analysis_Directory + '/Ausfallrate.png', Cm(15))
+#    ImgKumulativeVerteillungsfunktion = InlineImage(template,
+#                                                    Analysis_Directory + '/KumulativeVerteillungsfunktion.png', Cm(15))##
+#
+#    # template = DocxTemplate('WeibullReport.docx')
+#    context = {
+#        'title': 'Weibull-Analyse Report',
+#        'day': datetime.now().strftime('%d'),
+#        'month': datetime.now().strftime('%m'),
+#        'year': datetime.now().strftime('%Y'),
+#        # 'figure1': figure_zuverlässigkeit
+#        'figure1': ImgZuverlässigkeit,
+#        'figure2': ImgAusfallrate,
+#        'figure3': ImgWahrscheinlichkeitsdichtefunktion,
+#        'figure4': ImgKumulativeVerteillungsfunktion,
+#        'beta_var': Beta,
+#        'eta_var': Eta,
+#        'mttf_var': "TBD"
 
-    # template = DocxTemplate('WeibullReport.docx')
-    context = {
-        'title': 'Weibull-Analyse Report',
-        'day': datetime.now().strftime('%d'),
-        'month': datetime.now().strftime('%m'),
-        'year': datetime.now().strftime('%Y'),
-        # 'figure1': figure_zuverlässigkeit
-        'figure1': ImgZuverlässigkeit,
-        'figure2': ImgAusfallrate,
-        'figure3': ImgWahrscheinlichkeitsdichtefunktion,
-        'figure4': ImgKumulativeVerteillungsfunktion,
-        'beta_var': Beta,
-        'eta_var': Eta,
-        'mttf_var': "TBD"
+#    }
 
-    }
+#    template.render(context)
+#    template.save(Analysis_Directory + '/WeibullReport.docx')
 
-    template.render(context)
-    template.save(Analysis_Directory + '/WeibullReport.docx')
+#    time.sleep(2)
+#    # plotly.offline.plot(figure_zuverlässigkeit,filename=(UPLOAD_DIRECTORY+"/Zuverlässigkeit.png')#date
+#    # figure_zuverlässigkeit.write_image(UPLOAD_DIRECTORY+'/Zuverlässigkeit.png')
 
-    time.sleep(2)
-    # plotly.offline.plot(figure_zuverlässigkeit,filename=(UPLOAD_DIRECTORY+"/Zuverlässigkeit.png')#date
-    # figure_zuverlässigkeit.write_image(UPLOAD_DIRECTORY+'/Zuverlässigkeit.png')
-
-    return dcc.send_file(Analysis_Directory + '/WeibullReport.docx')
+#    return dcc.send_file(Analysis_Directory + '/WeibullReport.docx')
 
 
 #    return dcc.send_file("Vorlage.xlsx")
